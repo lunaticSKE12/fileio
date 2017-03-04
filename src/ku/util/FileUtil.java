@@ -21,25 +21,8 @@ public class FileUtil {
 	 * @param in is file that want to copy.
 	 * @param out is file that finish copy.
 	 */
-	static void copy(InputStream in, OutputStream out){
-		try{
-			int count = in.read();
-			while(count >= 0){
-				out.write(count);
-			}
-		} 
-		catch (IOException e){
-			throw new RuntimeException();
-		} 
-		finally{
-			try{
-				in.close();
-				out.close();
-			} 
-			catch (IOException e){
-
-			}
-		}
+	static void copy(InputStream in, OutputStream out) {
+		copy(in, out, 1);
 	}
 
 	/**
@@ -48,53 +31,42 @@ public class FileUtil {
 	 * @param out is file that finish copy.
 	 * @param blocksize is size of array;
 	 */
-	static void copy(InputStream in, OutputStream out, int blocksize){
-		byte[] buffer = new byte[blocksize];
-		try{
-			int count = in.read(buffer);
-			while(count >= 0){
-				out.write(buffer);
+	static void copy(InputStream in, OutputStream out, int blocksize) {
+		try {
+			byte[] buffer = new byte[blocksize];
+			int count;
+			while ((count = in.read(buffer)) > -1) {
+				out.write(buffer, 0, count);
 			}
-		}
-		catch (IOException e){
-			throw new RuntimeException();
-		}
-		finally{
-			try{
-				in.close();
-				out.close();
-			}
-			catch (IOException e){
-				e.printStackTrace();
-			}
+			in.close();
+			out.close();
+		} catch (RuntimeException e) {
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
+
 
 	/**
 	 * copy InputStream to OutputStream by BufferedReader and PrintWriter.
 	 * @param in is file that want to copy.
 	 * @param out is file that finish copy.
 	 */
-	static void bcopy(InputStream in, OutputStream out){
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		PrintWriter pw = new PrintWriter(new OutputStreamWriter(out));
+	static void bcopy(InputStream in, OutputStream out) {
 		try {
-			String string = br.readLine();
-			while(string != null){
-				pw.println(string);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			PrintWriter pw = new PrintWriter(new OutputStreamWriter(out));
+			String string;
+			while ((string = br.readLine()) != null) {
+				pw.write(string + "\n");
 			}
-		} 
-		catch (IOException e) {
+			br.close();
+			pw.close();
+		} catch (RuntimeException e) {
 			throw new RuntimeException(e);
-		}
-		finally{
-			try{
-				br.close();
-				pw.close();
-			}
-			catch(IOException e){
-				e.printStackTrace();
-			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	

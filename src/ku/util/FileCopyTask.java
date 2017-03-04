@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import Stopwatch.TaskTimer;
 
+
 /**
  * This class defines code used to create Runnable 'tasks' to test
  * the file copy mehods in FileUtil.  The subclasses should
@@ -82,7 +83,6 @@ public class FileCopyTask implements Runnable {
 		// If 'in' is null then throw a RuntimeException 
 		// so the caller will know that filename could not be opened.
 		
-		//TODO If in (InputStream) is null, throw a RuntimeException with a message.
 	}
 	
 	/**
@@ -127,31 +127,78 @@ public class FileCopyTask implements Runnable {
 	 */
 	public static void main(String[] args) {
 		final String inputFilename = "Big-Alice-in-Wonderland.txt";
-		
-		// Define a FileUtil task to copy a file byte by byte.
-		// This is an anonymous class that extends FileUtilTimer.
-		//TODO Can you make this code shorter by passing the filenames
-		// as parameters to the superclass constructor?
+
+		// copy the file one byte at a time
 		FileCopyTask task1 = new FileCopyTask() {
 			public void run() {
-				
-					FileUtil.copy(in, out);
-				
+				FileUtil.copy(in, out);
+
 			}
 			public String toString() {
-				return "Copy a file byte-by-byte";
+				return "Copy the file one byte at a time.";
 			}
 		};
+
+		// copy a file using a byte array of size 1KB.
+		FileCopyTask task2 = new FileCopyTask() {
+			public void run() {
+				FileUtil.copy(in, out, 1024);
+			}
+			public String toString() {
+				return "Copy the file using a byte array of size 1KB";
+			}
+		};
+
+		// copy a file using a byte array of size 4KB.
+		FileCopyTask task3 = new FileCopyTask() {
+			public void run() {
+				FileUtil.copy(in, out, 4 * 1024);
+			}
+			public String toString() {
+				return "Copy the file using a byte array of size 4KB";
+			}
+		};
+
+		// copy a file using a byte array of size 64KB.
+		FileCopyTask task4 = new FileCopyTask() {
+			public void run() {
+				FileUtil.copy(in, out, 64 * 1024);
+			}
+			public String toString() {
+				return "Copy the file using a byte array of size 64KB";
+			}
+		};
+
+		// copy a file using BufferedReader and BufferedWriter to copy line of text.
+		FileCopyTask task5 = new FileCopyTask() {
+			public void run() {
+				FileUtil.bcopy(in, out);
+			}
+			public String toString() {
+				return "Copy the file using BufferedReader and PrintWriter to copy lines of text";
+			}
+		};
+
 		task1.setInput(inputFilename);
-		task1.setOutput("filecopy1.txt");
+		task1.setOutput("src/filecopy1.txt");
+
+		task2.setInput(inputFilename);
+		task2.setOutput("src/filecopy2.txt");
+		
+		task3.setInput(inputFilename);
+		task3.setOutput("src/filecopy3.txt");
+
+		task4.setInput(inputFilename);
+		task4.setOutput("src/filecopy4.txt");
+		
+		task5.setInput(inputFilename);
+		task5.setOutput("src/filecopy5.txt");
 		
 		TaskTimer timer = new TaskTimer();
-		timer.measureAndPrint(task1);  // wasn't that easy?
-		
-		//TODO Define tasks for the other copy tests you need.
-		
-		//TODO 'Avoid Magic Numbers' - some tasks require a blocksize
-		// for the copy method.  Don't write this as a number in the
-		// anonymous class!  Use a variable from the outer scope (here).  
+		timer.measureAndPrint(task1);
+		timer.measureAndPrint(task2);
+		timer.measureAndPrint(task3);
+		timer.measureAndPrint(task4);
+		timer.measureAndPrint(task5);
 	}
 }
