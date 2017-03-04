@@ -135,7 +135,7 @@ public class FileCopyTask implements Runnable {
 
 			}
 			public String toString() {
-				return "Copy the file one byte at a time.";
+				return "Copy a file byte-by-byte";
 			}
 		};
 
