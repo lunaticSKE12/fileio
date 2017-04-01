@@ -142,7 +142,8 @@ public class FileCopyTask implements Runnable {
 		// copy a file using a byte array of size 1KB.
 		FileCopyTask task2 = new FileCopyTask() {
 			public void run() {
-				FileUtil.copy(in, out, 1024);
+				int sizeOf1Byte = 1024;
+				FileUtil.copy(in, out, sizeOf1Byte );
 			}
 			public String toString() {
 				return "Copy the file using a byte array of size 1KB";
@@ -152,7 +153,8 @@ public class FileCopyTask implements Runnable {
 		// copy a file using a byte array of size 4KB.
 		FileCopyTask task3 = new FileCopyTask() {
 			public void run() {
-				FileUtil.copy(in, out, 4 * 1024);
+				int sizeOf4Byte = 4 * 1024;
+				FileUtil.copy(in, out, sizeOf4Byte);
 			}
 			public String toString() {
 				return "Copy the file using a byte array of size 4KB";
@@ -162,7 +164,8 @@ public class FileCopyTask implements Runnable {
 		// copy a file using a byte array of size 64KB.
 		FileCopyTask task4 = new FileCopyTask() {
 			public void run() {
-				FileUtil.copy(in, out, 64 * 1024);
+				int sizeOf64Byte = 64 * 1024;
+				FileUtil.copy(in, out, sizeOf64Byte);
 			}
 			public String toString() {
 				return "Copy the file using a byte array of size 64KB";
